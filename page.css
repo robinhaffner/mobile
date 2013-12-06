@@ -1,0 +1,76 @@
+.ui-mobile, .ui-mobile body { height: auto; font-family: "Helvetica Neue"; }
+
+.ui-mobile body .app-page { background: none; background-color: #fff; }
+
+#logo { margin: 5% auto 0 auto; display: block; }
+
+.info_banner { margin:0; padding: 0; }
+.ui-mobile .info_banner li.ui-li,
+.ui-mobile .info_banner li { 
+	display: inline-block; 
+	list-style-type: none;
+	border-right: 1px solid #999;
+	text-align: center;
+	padding: 0 0 5px 0;
+	width: 20%;
+}
+.info_banner li small { color: #ccc; font-size: 10px; }
+.info_banner li span {
+	display: block; 
+	padding-top: 5px; 
+}
+#sortable.ui-shadow { box-shadow: none; }
+a.btn-default, #sortable li {
+	margin: 5px; 
+	border: 1px solid rgb(006,188,232); 
+	border-radius: .6em; 
+	font-family: Helvetica Neue; 
+	font-weight: normal; 
+	color: rgb(006,188,232); 
+	font-size: 10pt;
+	background-image: none;
+	background-color: transparent;
+	text-shadow: none;
+}
+a.btn-default:active,
+a.btn-default:visited,
+a.btn-default:hover { color: rgb(006,188,232); }
+.ui-header a.btn-default { top: -2px; right: 8px; }
+
+.control .ui-btn {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+#score_content span { font-size: 52px; color: blue; display: block; margin: -10px 0; }
+
+#ftr-content {
+	width: 100%; height: 100px; 
+	background-color: rgb(119, 0, 73); 
+	color: rgb(255, 255, 255); 
+	text-shadow: none;
+}
+#sponsored, #ISI { font-size: 10px; }
+#sponsored {
+	float: left; width: 120px; 
+	margin-left: 12px;
+	padding-top: 6px;
+}
+#ISI {
+	margin-left: 0px; 
+	width: 45%; height: 100%; 
+	float: right; 
+	overflow: auto;
+}
+#ISI a:link, #ISI a:visited, 
+#ISI a:active, #ISI a:hover { color: #2489CE; font-weight: bold; }
+
+@media (max-width: 800px) {
+	#logo, #ad_space { width: 100%; }
+}
+@media (max-height:  320px) {
+	[data-role=footer] { position: relative !important; }
+}

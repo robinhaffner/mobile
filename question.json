@@ -1,0 +1,30 @@
+{
+	"question1": 
+	{
+		"question_id": 1,
+	    "question_header": "Drag and drop to rank",
+	    "question_text": "How do your peers rank risks when initiating anticoagulation therapy?",
+	    "answers": [
+	    	{ "answer": "Systemic Coagulation" },
+		    { "answer": "Bleeding Risk" },
+		    { "answer": "Stroke Risk" },
+		    { "answer": "Mortality Risk" }
+	    ],
+	    "result_header": "How Your Peers Responded"
+	},
+	"question2": 
+	{
+		"question_id": 2,
+	    "question_header": "Pop the bubbles",
+	    "question_text": "What considerations are your peers LEAST likely to make when initiating anticoagulants?",
+	    "answers": [
+	    	{ "answer": "Bleeding Risk" },
+		    { "answer": "Stroke Risk" },
+		    { "answer": "Mortality Risk" },
+		    { "answer": "Adherence" },
+		    { "answer": "INR/PT test" }
+	    ],
+	    "result_header": "How Your Peers Responded"
+	}
+
+}
