@@ -4,20 +4,24 @@
 
 #logo { margin: 5% auto 0 auto; display: block; }
 
-.info_banner { margin:0; padding: 0; }
+.info_banner { margin:0; padding: 0;  height: 45px;
+    overflow: hidden;}
 .ui-mobile .info_banner li.ui-li,
 .ui-mobile .info_banner li { 
-	display: inline-block; 
+	display: block; 
 	list-style-type: none;
 	border-right: 1px solid #999;
 	text-align: center;
-	padding: 0 0 5px 0;
+	padding: 0;
 	width: 20%;
+	float: left;
+	height: 45px;
 }
 .info_banner li small { color: #ccc; font-size: 10px; }
 .info_banner li span {
 	display: block; 
-	padding-top: 5px; 
+	padding-top: 2px; 
+	line-height: 20px;
 }
 #sortable.ui-shadow { box-shadow: none; }
 a.btn-default, #sortable li {
@@ -46,7 +50,9 @@ a.btn-default:hover { color: rgb(006,188,232); }
 }
 
 #score_content span { font-size: 52px; color: blue; display: block; margin: -10px 0; }
-
+#question_content > h2 {
+    margin: 0;
+}
 #ftr-content {
 	width: 100%; height: 100px; 
 	background-color: rgb(119, 0, 73); 
@@ -69,7 +75,7 @@ a.btn-default:hover { color: rgb(006,188,232); }
 #ISI a:active, #ISI a:hover { color: #2489CE; font-weight: bold; }
 
 @media (max-width: 800px) {
-	#logo, #ad_space { width: 100%; }
+	#logo, #ad_space, .graph { width: 100%; }
 }
 @media (max-height:  320px) {
 	[data-role=footer] { position: relative !important; }

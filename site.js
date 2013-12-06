@@ -66,7 +66,7 @@ $(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
 				$('.info_banner span.question').empty().append(localStorage.segment +" of "+ localStorage.count);
 				$('.info_banner span.score').empty().append(localStorage.score);
 				$('.info_banner span.rank').empty().append(localStorage.rank);
-			};
+			}
 			
 			if (textStatus == "success") {
 				$.extend(tdata, json);
@@ -89,7 +89,7 @@ $(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
 		 				}
 		 				if (__d == "ad") {
 		 					//data-next="q2" data-segment="1"
-		 					numOfQuestions++;
+		 					/*numOfQuestions++;
 
 		 					if (numOfQuestions == parseInt(localStorage.count)) {
 		 						$.mobile.loadPage( "last.html", {prefetch:"true"} );
@@ -98,7 +98,7 @@ $(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
 		 						$.mobile.loadPage( "q"+numOfQuestions+".html", {prefetch:"true"} );
 		 						$.mobile.changePage( "q"+numOfQuestions+".html", { transition: "none" }, true, true );
 		 					 }
-		 					
+		 					*/
 		 					$(__id).data('segment', numOfQuestions)
 		 					renderJSONContent.adJSON();
 		 				}
