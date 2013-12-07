@@ -139,7 +139,7 @@ var renderJSONContent = {
 		$('.info_banner span.question').empty().append("&nbsp;");
 		$('.info_banner span.score').empty().append(localStorage.score);
 		$('.info_banner span.rank').empty().append(localStorage.rank);
-		$('a#return').attr('href', location.protocol+"//"+location.host+"/mobile2/mobile.html");
+		$('a#return').attr('href', "./mobile.html");
 	}
 }
 
