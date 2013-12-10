@@ -1,6 +1,6 @@
 var __t, __d, __id, __localStorage;
 var __speed = 50;
-tdata = {};
+tdata = new Object();
 var numOfQuestions = 0;
 
 $( document ).on( "pageinit", "[data-role='page'].app-page", function() {
@@ -60,6 +60,7 @@ $(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
 
 	if(typeof(__d)!=="undefined"){
 		$.getJSON(__d+'.json', function(json, textStatus) {
+			console.log("json",json)
 			var count = Object.keys(json).length
 			if (__d == "question") { localStorage.count = count; };
 			if ( localStorage.segment != 0) {
