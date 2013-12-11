@@ -59,6 +59,7 @@ $(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
 	//console.log("__d",__d)
 
 	if(typeof(__d)!=="undefined"){
+		//console.log(filePathJSON)
 		$.getJSON(__d+'.json', function(json, textStatus) {
 			var count = Object.keys(json).length
 			if (__d == "question") { localStorage.count = count; };

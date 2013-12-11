@@ -1,7 +1,8 @@
 var __t, __d, __id, __localStorage;
-var __speed = 50;
+var __speed = 50, __param;
 tdata = new Object();
 var numOfQuestions = 0;
+
 
 $( document ).on( "pageinit", "[data-role='page'].app-page", function() {
 	var page = "#" + $( this ).attr( "id" ),
@@ -39,6 +40,7 @@ function scroll_isi() {
     document.getElementById("ISI").scrollTop++;
     __t = setTimeout("scroll_isi();", __speed);
 }
+
 
 $(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
 	//console.log('ps',event, ui, $(this));
@@ -158,4 +160,3 @@ function getListView(){
 };
 
 $( window ).orientationchange();
-
