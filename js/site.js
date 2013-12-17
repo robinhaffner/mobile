@@ -234,9 +234,18 @@ function getBubbleView(d){
                     selected = $(labelArr[t]).html().toString();
 					$(labelArr[t]).hide()
 					$(canvasArr[t]).effect( "puff", options, 300);
-                    colorArray[t] = selectedColor;
+                    
+                    //swapping the position of the selected bubble with the first result and color. We do this so that the selected color legend in the results page will reflect the items selected. jqplot uses the first item color in the array to dictate the legend color.
+                    var tmp = plotResults[0];
+                    var ctmp = colorArray[0];
+                    plotResults[0] = plotResults[t];
+                    colorArray[0] = selectedColor;
+                    plotResults[t] = tmp;
+                    colorArray[t] = ctmp;
+                    
 				}
 			}
+           
             $.removeCookie('__colorArray');
             $.cookie("__colorArray", colorArray); 
 	});
@@ -246,8 +255,24 @@ function getBubbleView(d){
 
 
 function getListView(){
-var plot1= [], plot2=[];
+    var plot1= [], plot2=[];
+    $('#sortable').find("li").each(function(i, e){
+        var s = $(e).html().replace(' ', '<br>');
+        plot1.push([i+1, s]);
+        plot2.push([parseFloat($(e).jqmData( "avg" )), s]);
+    });
 
+    plot1.reverse();
+    plot2.reverse();
+
+    //use cookie to store data plots
+    $.removeCookie('__plot1');
+    $.removeCookie('__plot2');
+
+    $.cookie("__plot1", plot1); 
+    $.cookie("__plot2", plot2); 
+    $("#q1 .control .next").removeClass( "ui-disabled" );
+    
     $('#sortable')
         .sortable({
             'containment': 'parent',
