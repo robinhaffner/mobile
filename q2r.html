@@ -54,17 +54,17 @@
 
 		<div data-role="content">
 			<div id="question_content" style="display:none;">
-				<h2>{{result_header}}</h2>
+				<h3>{{result_header}}</h3>
 			</div>
 			<div id="result_content">
-				<div id="chart5" style="margin-top:5px; margin-left:0; width:282px; height:310px;"></div>
+				<div id="chart5" style="margin-top:5px; margin-left:0; width:282px; height:210px;"></div>
 			</div>
 		</div><!-- /content -->
 
 		<div data-role="footer" id="ftr" data-position="fixed" data-fullscreen="false" data-dom-cache="true">
 			<div class="ui-grid-a" id="ftr-content" width="100%" height="100">
 				<div class="ui-block-a" id="sponsored">
-				this program<br> sponsored by<br/><br/>
+				this program sponsored by<br/>
 				<img width="120" src="img/logo_eliquis.png"/>
 			</div>
 
@@ -75,9 +75,10 @@
 	<script class="code" type="text/javascript">
        
         $(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
+           // var page = "#q2r";
            $.jqplot.config.enablePlugins = true;
-           var __plotQ2R =$.cookie('__plotResults')
-           var __colorArray =$.cookie('__colorArray')
+           var __plotQ2R =$.cookie('__plotResults');
+           var __colorArray =$.cookie('__colorArray');
            
             //decode cookie
             var __p1=__plotQ2R.replace(/([^,]+,[^,]+),/g,'$1;');
@@ -95,22 +96,22 @@
                 }
             }
             makePlotArray(__bar1.split(';'), "bar1");
-            
-            var colorArray = [];
+          
+            var __colorArray = [];
             var s = __p2.split(",");
             for (i in s) {
-                        var arr = s[i].split(';')
+                        var arr = s[i].split(';');
                          for (j in arr) {
-                            colorArray.push(arr[j]);
+                            __colorArray.push(arr[j]);
                          }
                     }
-            console.log(colorArray);
+            //console.log(__colorArray);
 
       plot5 = $.jqplot('chart5', 
             [bar1],//, plot1],
             {
                 animate: true,
-                seriesColors:colorArray,
+                seriesColors:__colorArray,
                 series:[
                     {label:'Your picks'},
                    // {label:'What your peers think'}
@@ -151,25 +152,26 @@
                     rendererOptions: {}         // options to pass to the renderer.  Note, the default
                                                 // CanvasGridRenderer takes no additional options.
                 },
-                
-                legend: {
+                 legend: {
                     show: true,
-                    //placement: 'outside',
+                    placement: 'outside',
                     location: 's',     // compass direction, nw, n, ne, e, se, s, sw, w.
-                    xoffset: 100,        // pixel offset of the legend box from the x (or x2) axis.
-                    yoffset: 300 ,      // pixel offset of the legend box from the y (or y2) axis.
+                   // xoffset: 200,        // pixel offset of the legend box from the x (or x2) axis.
+                   // yoffset: 300 ,      // pixel offset of the legend box from the y (or y2) axis.
                     renderer: $.jqplot.EnhancedLegendRenderer,
-                    placement: 'outsideGrid',
-                    shrinkGrid: true,
                     rendererOptions: {
-                        numberRows : 1
+                        numberRows: 1
                     }
                 },
                 axes: {
                     xaxis: {
+                        //show: false,    // wether or not to renderer the axis.  Determined automatically.
+                        min: 0, 
+                        max: 100,    
+ 
                     },
                     yaxis: {    
-                          renderer: $.jqplot.CategoryAxisRenderer,
+                        renderer: $.jqplot.CategoryAxisRenderer,
                         tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
                         tickOptions: {
                            // angle: -90,

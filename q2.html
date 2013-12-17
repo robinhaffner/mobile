@@ -50,14 +50,14 @@
 				<h2>{{question_header}}</h2>
 				<p>{{question_text}}</p>
 			</div>
-			<div id="canvasBubble" class="plot" style="margin-top:5px; margin-left:0; width:282px; height:310px;"></div>
+			<div id="canvasBubble" class="plot" style="margin-top:-15px; margin-left:0; width:282px; height:200px;"></div>
 			<!--<canvas id="canvasBubble" style="margin-top:5px; margin-left:0; width:282px; height:310px;"></canvas>-->		
 		</div><!-- /content -->
 
 		<div data-role="footer" id="ftr" data-position="fixed" data-fullscreen="false" data-dom-cache="true">
 			<div class="ui-grid-a" id="ftr-content" width="100%" height="100">
 				<div class="ui-block-a" id="sponsored">
-				this program<br> sponsored by<br/><br/>
+				this program sponsored by<br/>
 				<img width="120" src="img/logo_eliquis.png"/>
 			</div>
 
@@ -66,73 +66,71 @@
 	</div><!-- /page -->
 
 <script class="code" language="javascript" type="text/javascript">
-$(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
+    $(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
            var page = "#q2";
-			//$("#q2 .control .next").addClass( "ui-disabled" );
 
-	$.jqplot.config.enablePlugins = true;
-    var bubblePlot = [];
-    var arr = $.cookie('__plotItems').split(",");
-     for (i in arr) {
-         bubblePlot.push([((i+1)*10),((i+1)*10),1000,arr[i]]);
-     }
+
+        $.jqplot.config.enablePlugins = true;
+         var bubblePlot = [];
+         var arr = [];
     
-    console.log(bubblePlot);
-    var colorArray=[];
-    colorArray = ['#ffffff', '#def5f9', '#8bcffa', '#eafcff'];
+        arr = $.cookie('__plotItems').split(",");
+        bubblePlot = [[1,7,1000,arr[0]],[3,1,1000,arr[1]],[6,11,1000,arr[2]],[10,8,1000,arr[3]],[9,2,1000,arr[4]]];
     
-    
-    plot2 = $.jqplot('canvasBubble',[bubblePlot],{
-    	animate: true,
-        seriesColors:colorArray,
-         grid: {
-            drawGridLines: false,        // wether to draw lines across the grid or not.
-            gridLineColor: '#d3eaee',    // *Color of the grid lines.
-            background: '#d3eaee',      // CSS color spec for background color of grid.
-            borderColor: '#d3eaee',     // CSS color spec for border around grid.
-            borderWidth: 0,           // pixel width of border around grid.
-            shadow: false,               // draw a shadow for grid.
-            shadowAngle: 0,            // angle of the shadow.  Clockwise from x axis.
-            shadowOffset: 0,          // offset from the line of the shadow.
-            shadowWidth: 0,             // width of the stroke for the shadow.
-            shadowDepth: 0,             // Number of strokes to make when drawing shadow.
-                                        // Each stroke offset by shadowOffset from the last.
-            shadowAlpha: 0,           // Opacity of the shadow
-            //renderer: $.jqplot.CanvasGridRenderer,  // renderer to use to draw the grid.
-            rendererOptions: {}         // options to pass to the renderer.  Note, the default
-                                        // CanvasGridRenderer takes no additional options.
-        },
-		seriesDefaults:{
-		    renderer: $.jqplot.BubbleRenderer,
-		    rendererOptions: {
-		        bubbleAlpha: 0.6,
-		        highlightAlpha: 0.8,
-		        highlightMouseDown: false, //diesable jqplotDataHighlight
-		        highlightMouseOver: false //diesable jqplotDataHighlight
-		    },
-		    shadow: true,
-		    shadowAlpha: 0.05
-		},
+       // console.log(bubblePlot);
+        var colorArray=[];
+        colorArray = ['#ffffff', '#def5f9', '#8bcffa', '#eafcff'];
         
-         axesDefaults: {
-            show: false,    // wether or not to renderer the axis.  Determined automatically.
-            //renderer: $.jqplot.LinearAxisRenderer,  // renderer to use to draw the axis,
-           renderer: $.jqplot.CategoryAxisRenderer,
-            showTickMarks:false,
-            showTicks: false, 
-            drawMajorGridlines: false,
-            drawMinorGridlines: false,
-            drawMajorTickMarks: false,
-            rendererOptions: {
-                tickInset: 0,
-                minorTicks: 0
-            }
-                      
-       }
+        
+        plot2 = $.jqplot('canvasBubble',[bubblePlot],{
+            animate: true,
+            seriesColors:colorArray,
+             grid: {
+                drawGridLines: false,        // wether to draw lines across the grid or not.
+                gridLineColor: '#d3eaee',    // *Color of the grid lines.
+                background: '#d3eaee',      // CSS color spec for background color of grid.
+                borderColor: '#d3eaee',     // CSS color spec for border around grid.
+                borderWidth: 0,           // pixel width of border around grid.
+                shadow: false,               // draw a shadow for grid.
+                shadowAngle: 0,            // angle of the shadow.  Clockwise from x axis.
+                shadowOffset: 0,          // offset from the line of the shadow.
+                shadowWidth: 0,             // width of the stroke for the shadow.
+                shadowDepth: 0,             // Number of strokes to make when drawing shadow.
+                                            // Each stroke offset by shadowOffset from the last.
+                shadowAlpha: 0,           // Opacity of the shadow
+                //renderer: $.jqplot.CanvasGridRenderer,  // renderer to use to draw the grid.
+                rendererOptions: {}         // options to pass to the renderer.  Note, the default
+                                            // CanvasGridRenderer takes no additional options.
+            },
+            seriesDefaults:{
+                renderer: $.jqplot.BubbleRenderer,
+                rendererOptions: {
+                    bubbleAlpha: 0.6,
+                    highlightAlpha: 0.8,
+                    highlightMouseDown: false, //diesable jqplotDataHighlight
+                    highlightMouseOver: false //diesable jqplotDataHighlight
+                },
+                shadow: true,
+                shadowAlpha: 0.05
+            },
+            
+             axesDefaults: {
+                show: false,    // wether or not to renderer the axis.  Determined automatically.
+                //renderer: $.jqplot.LinearAxisRenderer,  // renderer to use to draw the axis,
+               renderer: $.jqplot.CategoryAxisRenderer,
+                showTickMarks:false,
+                showTicks: false, 
+                drawMajorGridlines: false,
+                drawMinorGridlines: false,
+                drawMajorTickMarks: false,
+                rendererOptions: {
+                    tickInset: 0,
+                    minorTicks: 0
+                }
+                          
+           }
+        });
     });
-
-    
-});
         
 </script>
 

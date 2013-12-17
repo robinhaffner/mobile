@@ -4,17 +4,22 @@ tdata = {};
 var numOfQuestions = 0;
 var selectedColor = "#f96802";
 var defaultColor = "#dcd2ba";
+var colorArray = []; 
+var plotItems = []; 
+var plotResults = [];
 
 
 $( document ).on( "pageinit", "[data-role='page'].app-page", function() {
-	var page = "#" + $( this ).attr( "id" ),
+	   var page = "#" + $( this ).attr( "id" ),
 		// Get the filename of the next page that we stored in the data-next attribute
 		next = $( this ).jqmData( "next" );
+    //console.log(page, next);
 	
 	// Check if we did set the data-next attribute
 	if ( next ) {
+         
 		// Prefetch the next page
-		$.mobile.loadPage( next + ".html", {prefetch:"true"} );
+		//$.mobile.loadPage( next + ".html", {prefetch:"true"} );
 		// Navigate to next page on swipe left
 		$( document ).on( "swipeleft", page, function() {
 			$.mobile.changePage( next + ".html", { transition: "none" }, true, true);
@@ -29,7 +34,14 @@ $( document ).on( "pageinit", "[data-role='page'].app-page", function() {
 	else {
 		$( ".control .next", page ).addClass( "ui-disabled" );
 	}
-
+    if (page == "#main"){
+        var cookies = $.cookie();
+        for(var cookie in cookies) {
+           $.removeCookie(cookie);
+        }
+        //console.log("remove all cookies");
+    }
+    
 	//footer
 	$( "[data-role='footer']#ftr #ISI" ).load( "isi.html", function() {
 		$(this).scrollTop(0);
@@ -46,8 +58,7 @@ function scroll_isi() {
 var folderJSON;
 
 function getPageParam() {
-   // console.log("getPageParam");
-
+   
     __param = $.mobile.path.parseUrl(window.location);
     __p = __param.search.split("?")
     var b = {};
@@ -107,14 +118,15 @@ $(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
 			
 			if (textStatus == "success") {
 				$.extend(tdata, json);
-				__localCookie = "question"+__segment
-
+				__localCookie = "question"+__segment;
 				$.each(tdata, function(index, val) {
                     localStorage.setItem("json", json);
+                    //console.log("2", json.question2);
 					if (index == __localCookie){
 		 				tdata = val
 		 				if (__d == "question") {
 		 					renderJSONContent.questionJSON();
+                            getBubbleView(json.question2);
 		 				}
 		 				if (__d == "scores") {
 		 					//use cookie to store values
@@ -155,13 +167,10 @@ var renderJSONContent = {
 		$(__id).find('#question_content').show('fast').html(questionHTML);
 		if (__localCookie == "question1") {
 			getListView();
-            //getBubbleView();
+            //getBubbleView(tdata);
 		};
         
-        //I am not sure this is being called
-        if (__localCookie == "question2") {
-			getBubbleView();
-		};
+        
 	},
 	scoreJSON: function(){
 		//console.log("scoreJSON: ", __localCookie, __d, __id, tdata)
@@ -184,18 +193,27 @@ var renderJSONContent = {
 	}
 }
 
-function getBubbleView(){
-    var colorArray = []; 
-    var plotItems = []; 
-    var plotResults = [];
+    
+
+function getBubbleView(d){
+    // console.log("init", d.answers);
+    var answers = d.answers
+    colorArray = [];
+   for( i in answers){
+        //console.log(answers[i].answer, answers[i].score);
+        plotResults[i]=[answers[i].score, answers[i].answer];
+        plotItems.push(answers[i].answer.replace('<br>',' '));
+        colorArray.push('#dcd2ba');
+    }
+    
     //initialize the results array used to draw the results
-    plotResults =[[90, "Bleeding<br>Risk"],[25, "Stroke<br>Risk" ],[73,"Mortality<br>Risk"],[42, "Adherence"],[48,"INR/PT<br>test"]];
+   /* plotResults =[[90, "Bleeding<br>Risk"],[25, "Stroke<br>Risk" ],[73,"Mortality<br>Risk"],[42, "Adherence"],[48,"INR/PT<br>test"]];
     //Initialize the color array and the plotItems array to test selected by label
     for (var a=0; a<plotResults.length; a++){
         plotItems.push(plotResults[a][1].replace('<br>',' '));
         colorArray.push('#dcd2ba');
-    }
-     //use cookie to store data plots
+    }*/
+    //use cookie to store data plots
     $.removeCookie('__plotResults');
     $.removeCookie('__plotItems');
     $.removeCookie('__colorArray');
@@ -203,38 +221,22 @@ function getBubbleView(){
    $.cookie("__plotResults", plotResults); 
    $.cookie("__plotItems", plotItems); 
    $.cookie("__colorArray", colorArray); 
-    
     var canvasArr, labelArr, clickBubble, userSelectedBubble = [];
     var selected;
 	$('#canvasBubble').bind('jqplotDataClick',
 		function (ev, seriesIndex, pointIndex, data) {
-			console.log("click",ev, seriesIndex, pointIndex, data, arr[pointIndex], arr, $(this));
-			clickBubble = arr[pointIndex];
-
-			//create array from canvas container
 			canvasArr = $.makeArray( $(this).find(".jqplot-series-canvas .jqplot-bubble-point") );
 			labelArr = $.makeArray( $(this).find(".jqplot-series-canvas .jqplot-bubble-label") );
 			//search for click location and hide from canvas container
 			for( t in labelArr){
-				var searchHTML = $.inArray($(labelArr[t]).html(), arr[pointIndex]);
-				if($.inArray($(labelArr[t]).html().toString(), clickBubble) != -1) {
+				if($.inArray($(labelArr[t]).html().toString(), data) != -1) {
 					var options = {};
                     selected = $(labelArr[t]).html().toString();
 					$(labelArr[t]).hide()
 					$(canvasArr[t]).effect( "puff", options, 300);
+                    colorArray[t] = selectedColor;
 				}
-          
 			}
-            
-            userSelectedBubble.push(arr[pointIndex])
-			console.log("userSelectedBubble",userSelectedBubble);
-            //update the color array to reflect the selected color for the clicked bubble
-             if ( $.inArray(selected, plotItems) > -1 ) {
-                    console.log("in array");
-                    colorArray[pointIndex] = selectedColor;
-            }else{
-                    colorArray[pointIndex] = defaultColor;
-            }
             $.removeCookie('__colorArray');
             $.cookie("__colorArray", colorArray); 
 	});
@@ -251,6 +253,7 @@ var plot1= [], plot2=[];
             'containment': 'parent',
             'opacity': 0.6,
             update: function(event, ui) {
+                plot1= [], plot2=[];
                 $('#sortable').find("li").each(function(i, e){
                 	var s = $(e).html().replace(' ', '<br>');
                 	plot1.push([i+1, s]);
