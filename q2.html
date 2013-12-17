@@ -131,34 +131,6 @@ $(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
        }
     });
 
-	/*var canvasArr, labelArr, clickBubble, userSelectedBubble = [];
-    var selected;
-	$('#canvasBubble').bind('jqplotDataClick',
-		function (ev, seriesIndex, pointIndex, data) {
-			console.log("click",ev, seriesIndex, pointIndex, data, arr[pointIndex], arr, $(this));
-			clickBubble = arr[pointIndex];
-
-			//create array from canvas container
-			canvasArr = $.makeArray( $(this).find(".jqplot-series-canvas .jqplot-bubble-point") );
-			labelArr = $.makeArray( $(this).find(".jqplot-series-canvas .jqplot-bubble-label") );
-			//search for click location and hide from canvas container
-			for( t in labelArr){
-				var searchHTML = $.inArray($(labelArr[t]).html(), arr[pointIndex]);
-				if($.inArray($(labelArr[t]).html().toString(), clickBubble) != -1) {
-					var options = {};
-                    selected = $(labelArr[t]).html().toString();
-					$(labelArr[t]).hide()
-					$(canvasArr[t]).effect( "puff", options, 300);
-				}
-          
-			}
-
-			//user selected bubble
-            userSelectedBubble.push(selected);
-			//console.log("userSelectedBubble",selected);
-            localStorage.setItem("userSelectedBubble", userSelectedBubble);
-	});*/
-
     
 });
         
