@@ -16,13 +16,13 @@
 	{
 		"question_id": 2,
 	    "question_header": "Pop the bubbles",
-	    "question_text": "What considerations are your peers LEAST likely to make when initiating anticoagulants?",
+	    "question_text": "What considerations are your peers LEAST likely to make when initiating stuff?",
 	    "answers": [
-	    	{ "answer": "Bleeding Risk", "score": 3.5  },
-		    { "answer": "Stroke Risk", "score": 4.7 },
-		    { "answer": "Mortality Risk", "score":  2.4},
-		    { "answer": "Adherence", "score": 0.7 },
-		    { "answer": "INR/PT test", "score": 1.9 }
+	    	{ "answer": "Bleeding Risk", "score": 20  },
+		    { "answer": "Stroke Risk", "score": 30 },
+		    { "answer": "Mortality Risk", "score":  40},
+		    { "answer": "Adherence", "score": 60 },
+		    { "answer": "INR/PT test", "score": 90 }
 	    ],
 	    "result_header": "How Your Peers Responded"
 	}

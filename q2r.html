@@ -9,37 +9,30 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	<title>PV Game: Mobile</title> 
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
+	<link rel="stylesheet" href="page.css">
 
-	<!--jqplot-->
+    <!--jqplot-->
     <link class="include" rel="stylesheet" type="text/css" href="js/jqplot/jquery.jqplot.min.css" />
     <link type="text/css" rel="stylesheet" href="js/jqplot/syntaxhighlighter/styles/shCoreDefault.min.css" />
     <link type="text/css" rel="stylesheet" href="js/jqplot/syntaxhighlighter/styles/shThemejqPlot.min.css" />
-    <link type="text/css" rel="stylesheet" href="js/jqplot/plugins/jqplot.pointLabels.min.js"/>
-    <link type="text/css" rel="stylesheet" href="js/jqplot/plugins/jqplot.logAxisRenderer.min.js"/>
-    <link type="text/css" rel="stylesheet" href="js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"/>
-    <link type="text/css" rel="stylesheet" href="js/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js"/>
-    <link type="text/css" rel="stylesheet" href="js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"/>
-    <link type="text/css" rel="stylesheet" href="js/jqplot/plugins/jqplot.dateAxisRenderer.min.js"/>
-    <link type="text/css" rel="stylesheet" href="js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"/>
-    <link type="text/css" rel="stylesheet" href="js/jqplot/plugins/jqplot.barRenderer.min.js"/>
-	<!--//-->
-
-	<link rel="stylesheet" href="page.css">
+    <!--//-->
 
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.3.1/jquery.cookie.min.js"></script>    
 	<script src="js/site.js"></script>
-	<!--jqplot-->
-    <script class="include" type="text/javascript" src="js/jqplot/jquery.jqplot.min.js"></script>
-    <script type="text/javascript" src="js/jqplot/syntaxhighlighter/scripts/shCore.min.js"></script>
-    <script type="text/javascript" src="js/jqplot/syntaxhighlighter/scripts/shBrushJScript.min.js"></script>
-    <script type="text/javascript" src="js/jqplot/syntaxhighlighter/scripts/shBrushXml.min.js"></script>
-    <script language="javascript" type="text/javascript" src="js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
-    <script language="javascript" type="text/javascript" src="js/jqplot/plugins/jqplot.barRenderer.min.js"></script>
-	<!--//-->
+    <!--jqplot-->
+    <script type="text/javascript" src="js/jqplot/jquery.jqplot.min.js"></script>
+    <script type="text/javascript" src="js/jqplot/plugins/jqplot.barRenderer.min.js"></script>
+    <script type="text/javascript" src="js/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
+    <script type="text/javascript" src="js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+    <script type="text/javascript" src="js/jqplot/plugins/jqplot.pointLabels.min.js"></script>
+    <script type="text/javascript" src="js/jqplot/plugins/jqplot.enhancedLegendRenderer.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="js/jqplot/jquery.jqplot.min.css" />
+    <!--//-->
 
 </head> 
 
@@ -61,10 +54,10 @@
 
 		<div data-role="content">
 			<div id="question_content" style="display:none;">
-				<h2	style="font-family: Helvetica Neue; font-weight: normal; color: rgb(87,143,194); font-size: 12pt;">{{result_header}}</h2>
+				<h2>{{result_header}}</h2>
 			</div>
 			<div id="result_content">
-				<div id="chart5" style="margin-top:2px;width:300px; height:230px;"></div>
+				<div id="chart5" style="margin-top:5px; margin-left:0; width:282px; height:310px;"></div>
 			</div>
 		</div><!-- /content -->
 
@@ -80,18 +73,41 @@
 	</div><!-- /page -->
 
 	<script class="code" type="text/javascript">
-          //getPageParam();
        
         $(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
            $.jqplot.config.enablePlugins = true;
+           var __plotQ2R =$.cookie('__plotResults')
+           var __colorArray =$.cookie('__colorArray')
            
-            //this arrays should be built dynamically from the json data to include the average data and the labels
-          var plot1 = [[90, "Bleeding<br>Risk"],[25, "Stroke<br>Risk" ],[73,"Mortality<br>Risk"],[42, "Adherence"],[48,"INR/PT<br>test"]];
-            ////*****/based on bubbles popped build color array, For items popped by the user, use one color: orange. for all others use another color: tan.
-            var colorArray=[];
-            colorArray = ['#f96802', '#dcd2ba', '#f96802', '#f96802', '#dcd2ba'];
+            //decode cookie
+            var __p1=__plotQ2R.replace(/([^,]+,[^,]+),/g,'$1;');
+            var __p2=__colorArray.replace(/([^,]+,[^,]+),/g,'$1;');
+
+            var bar1=[];
+            var __bar1 = new String(__p1);
+
+            function makePlotArray (s, name){
+                for (i in s) {
+                    if(name == "bar1"){
+                        arr = s[i].split(',')
+                        bar1.push([parseInt(arr[0]),arr[1]]);
+                    }
+                }
+            }
+            makePlotArray(__bar1.split(';'), "bar1");
+            
+            var colorArray = [];
+            var s = __p2.split(",");
+            for (i in s) {
+                        var arr = s[i].split(';')
+                         for (j in arr) {
+                            colorArray.push(arr[j]);
+                         }
+                    }
+            console.log(colorArray);
+
       plot5 = $.jqplot('chart5', 
-            [plot1],//, plot1],
+            [bar1],//, plot1],
             {
                 animate: true,
                 seriesColors:colorArray,
@@ -99,7 +115,7 @@
                     {label:'Your picks'},
                    // {label:'What your peers think'}
                     {pointLabels:{
-                        show: false,
+                        show: true,
                         formatString: '%s (?%%)' 
                       }}
                     ],
@@ -154,11 +170,11 @@
                     },
                     yaxis: {    
                           renderer: $.jqplot.CategoryAxisRenderer,
-                       /* tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+                        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
                         tickOptions: {
                            // angle: -90,
                            // fontSize: '10pt'
-                        }*/
+                        }
                     }  
                 }
             });
