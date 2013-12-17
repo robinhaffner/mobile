@@ -2,14 +2,15 @@ var __t, __d, __id, __localStorage;
 var __speed = 50;
 tdata = {};
 var numOfQuestions = 0;
+//var p1= [], p2=[];
 
 $( document ).on( "pageinit", "[data-role='page'].app-page", function() {
 	var page = "#" + $( this ).attr( "id" ),
 		// Get the filename of the next page that we stored in the data-next attribute
 		next = $( this ).jqmData( "next" );
-	
 	// Check if we did set the data-next attribute
 	if ( next ) {
+        
 		// Prefetch the next page
 		$.mobile.loadPage( next + ".html", {prefetch:"true"} );
 		// Navigate to next page on swipe left
@@ -33,7 +34,24 @@ $( document ).on( "pageinit", "[data-role='page'].app-page", function() {
 		scroll_isi();
 	});
 });
+     
+/*function loadPlot() {
 
+                var plot1=[], plot2=[];
+                $('#sortable').find("li").each(function(i, e){
+                        var s = $(e).html().replace(' ', '<br>');
+                        console.log(s);
+                        plot1.push([i+1, s]);
+                        plot2.push([parseFloat($(e).jqmData( "avg" )), s]);
+                });
+                plot1.reverse();
+                plot2.reverse();
+                var p1 = [], p2=[];
+                localStorage.setItem("p1",plot1);
+                //sessionStorage.p2 = [];
+                localStorage.setItem("p2",plot2);
+
+}*/
 function scroll_isi() {
     if (__t) clearTimeout(__t);
     document.getElementById("ISI").scrollTop++;
@@ -151,11 +169,20 @@ function getListView(){
             'opacity': 0.6,
             update: function(event, ui) {
                 console.log(event, ui)
-            }
+/*                $(ui).find("li").each(function(i, e){
+                        var s = $(e).html().replace(' ', '<br>');
+                        console.log(s);
+                        //plot1.push([i+1, s]);
+                        //plot2.push([parseFloat($(e).jqmData( "avg" )), s]);
+                });*/
+                }
         })
         .disableSelection()
         .listview().listview('refresh');
+        
 };
 
 $( window ).orientationchange();
 
+           
+               /* */

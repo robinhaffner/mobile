@@ -14,17 +14,24 @@
     <link class="include" rel="stylesheet" type="text/css" href="js/jqplot/jquery.jqplot.min.css" />
     <link type="text/css" rel="stylesheet" href="js/jqplot/syntaxhighlighter/styles/shCoreDefault.min.css" />
     <link type="text/css" rel="stylesheet" href="js/jqplot/syntaxhighlighter/styles/shThemejqPlot.min.css" />
+    <link type="text/css" rel="stylesheet" href="js/jqplot/plugins/jqplot.pointLabels.min.js"/>
+    <link type="text/css" rel="stylesheet" href="js/jqplot/plugins/jqplot.logAxisRenderer.min.js"/>
+    <link type="text/css" rel="stylesheet" href="js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"/>
+    <link type="text/css" rel="stylesheet" href="js/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js"/>
+    <link type="text/css" rel="stylesheet" href="js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"/>
+    <link type="text/css" rel="stylesheet" href="js/jqplot/plugins/jqplot.dateAxisRenderer.min.js"/>
+    <link type="text/css" rel="stylesheet" href="js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"/>
+    <link type="text/css" rel="stylesheet" href="js/jqplot/plugins/jqplot.barRenderer.min.js"/>
 	<!--//-->
 
 	<link rel="stylesheet" href="page.css">
 
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
 	<script src="js/site.js"></script>
-    <script src="js/styles.js"></script>
 	<!--jqplot-->
     <script class="include" type="text/javascript" src="js/jqplot/jquery.jqplot.min.js"></script>
     <script type="text/javascript" src="js/jqplot/syntaxhighlighter/scripts/shCore.min.js"></script>
@@ -54,10 +61,10 @@
 
 		<div data-role="content">
 			<div id="question_content" style="display:none;">
-				<h2>{{result_header}}</h2>
+				<h2	style="font-family: Helvetica Neue; font-weight: normal; color: rgb(87,143,194); font-size: 12pt;">{{result_header}}</h2>
 			</div>
 			<div id="result_content">
-				<div id="chart5" style="margin-top:20px;width:300px; height:300px;"></div>
+				<div id="chart5" style="margin-top:2px;width:300px; height:230px;"></div>
 			</div>
 		</div><!-- /content -->
 
@@ -72,22 +79,96 @@
 		</div><!-- /footer -->
 	</div><!-- /page -->
 
-	<script type="text/javascript">
-        getPageParam()
+	<script class="code" type="text/javascript">
+          //getPageParam();
+       
+        $(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
+           $.jqplot.config.enablePlugins = true;
+           
+            //this arrays should be built dynamically from the json data to include the average data and the labels
+          var plot1 = [[90, "Bleeding<br>Risk"],[25, "Stroke<br>Risk" ],[73,"Mortality<br>Risk"],[42, "Adherence"],[48,"INR/PT<br>test"]];
+            ////*****/based on bubbles popped build color array, For items popped by the user, use one color: orange. for all others use another color: tan.
+            var colorArray=[];
+            colorArray = ['#f96802', '#dcd2ba', '#f96802', '#f96802', '#dcd2ba'];
+      plot5 = $.jqplot('chart5', 
+            [plot1],//, plot1],
+            {
+                animate: true,
+                seriesColors:colorArray,
+                series:[
+                    {label:'Your picks'},
+                   // {label:'What your peers think'}
+                    {pointLabels:{
+                        show: false,
+                        formatString: '%s (?%%)' 
+                      }}
+                    ],
+                 seriesDefaults:{
+                    renderer:$.jqplot.BarRenderer,
+                    shadowAngle: 0,
+                    shadowAlpha: 0,
+                    rendererOptions: {
+                        varyBarColor: true,
+                        barDirection: 'horizontal',
+                        highlightMouseDown: true   ,
+                        barWidth: 18,
+                        barPadding: 0,
+                        barMargin: 0,
+                        shadowAngle: 0,
+                        shadowAlpha: 0
+                    },
+                },
+                grid: {
+                    drawGridLines: true,        // wether to draw lines across the grid or not.
+                    gridLineColor: '#cccccc',    // *Color of the grid lines.
+                    background: '#ffffff',      // CSS color spec for background color of grid.
+                    borderColor: '#999999',     // CSS color spec for border around grid.
+                    borderWidth: 0,           // pixel width of border around grid.
+                    shadow: false,               // draw a shadow for grid.
+                    shadowAngle: 0,            // angle of the shadow.  Clockwise from x axis.
+                    shadowOffset: 0,          // offset from the line of the shadow.
+                    shadowWidth: 0,             // width of the stroke for the shadow.
+                    shadowDepth: 0,             // Number of strokes to make when drawing shadow.
+                                                // Each stroke offset by shadowOffset from the last.
+                    shadowAlpha: 0,           // Opacity of the shadow
+                    renderer: $.jqplot.CanvasGridRenderer,  // renderer to use to draw the grid.
+                    rendererOptions: {}         // options to pass to the renderer.  Note, the default
+                                                // CanvasGridRenderer takes no additional options.
+                },
+                
+                legend: {
+                    show: true,
+                    //placement: 'outside',
+                    location: 's',     // compass direction, nw, n, ne, e, se, s, sw, w.
+                    xoffset: 100,        // pixel offset of the legend box from the x (or x2) axis.
+                    yoffset: 300 ,      // pixel offset of the legend box from the y (or y2) axis.
+                    renderer: $.jqplot.EnhancedLegendRenderer,
+                    placement: 'outsideGrid',
+                    shrinkGrid: true,
+                    rendererOptions: {
+                        numberRows : 1
+                    }
+                },
+                axes: {
+                    xaxis: {
+                    },
+                    yaxis: {    
+                          renderer: $.jqplot.CategoryAxisRenderer,
+                       /* tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+                        tickOptions: {
+                           // angle: -90,
+                           // fontSize: '10pt'
+                        }*/
+                    }  
+                }
+            });
+        });
 
-		$(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
-            var __g = $(this).jqmData( "selectdata" );
-            var plot1, plot2;
-            plot = [[],[]];
-
-            if(typeof(__g)!=="undefined"){
-                filePath = "json/"+folderJSON+"/"+__g+".json";
-
-                filePathJSON.ifFileExists(filePath)
-            };
-
-        }); //pageshow
-	</script>
+        
+  
+        
+        </script>
 
 </body>
 </html>
+	
