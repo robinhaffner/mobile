@@ -197,30 +197,22 @@ var renderJSONContent = {
 	}
 }
 
-    
+  function setScore(){
+      
+  }
 
 function getBubbleView(d){
-    // console.log("init", d.answers);
+    //console.log("init bubble data");
     var answers = d.answers
     colorArray = [];
    for( i in answers){
         //console.log(answers[i].answer, answers[i].score);
-        plotResults[i]=[answers[i].score, answers[i].answer];
-        plotItems.push(answers[i].answer.replace('<br>',' '));
-        colorArray.push('#dcd2ba');
         var ans = answers[i].answer.replace(' ', '<br>')
         plotResults[i]=[answers[i].score,answers[i].answer];
         plotItems.push(answers[i].answer);
         colorArray.push(defaultColor);
     }
     
-    //initialize the results array used to draw the results
-   /* plotResults =[[90, "Bleeding<br>Risk"],[25, "Stroke<br>Risk" ],[73,"Mortality<br>Risk"],[42, "Adherence"],[48,"INR/PT<br>test"]];
-    //Initialize the color array and the plotItems array to test selected by label
-    for (var a=0; a<plotResults.length; a++){
-        plotItems.push(plotResults[a][1].replace('<br>',' '));
-        colorArray.push('#dcd2ba');
-    }*/
     //use cookie to store data plots
     $.removeCookie('__plotResults');
     $.removeCookie('__plotItems');
@@ -229,38 +221,7 @@ function getBubbleView(d){
    $.cookie("__plotResults", plotResults); 
    $.cookie("__plotItems", plotItems); 
    $.cookie("__colorArray", colorArray); 
-    var canvasArr, labelArr, clickBubble, userSelectedBubble = [];
-    var selected;
-	$('#canvasBubble').bind('jqplotDataClick',
-		function (ev, seriesIndex, pointIndex, data) {
-			canvasArr = $.makeArray( $(this).find(".jqplot-series-canvas .jqplot-bubble-point") );
-			labelArr = $.makeArray( $(this).find(".jqplot-series-canvas .jqplot-bubble-label") );
-			//search for click location and hide from canvas container
-			for( t in labelArr){
-				if($.inArray($(labelArr[t]).html().toString(), data) != -1) {
-					var options = {};
-                    selected = $(labelArr[t]).html().toString();
-					$(labelArr[t]).hide()
-					$(canvasArr[t]).effect( "puff", options, 300);
-                    
-                    //swapping the position of the selected bubble with the first result and color. We do this so that the selected color legend in the results page will reflect the items selected. jqplot uses the first item color in the array to dictate the legend color.
-                    var tmp = plotResults[0];
-                    var ctmp = colorArray[0];
-                    plotResults[0] = plotResults[t];
-                    colorArray[0] = selectedColor;
-                    plotResults[t] = tmp;
-                    colorArray[t] = ctmp;
-                    
-				}
-			}
-           
-            $.removeCookie('__colorArray');
-            $.cookie("__colorArray", colorArray); 
-	});
-
 }
-
-
 
 function getListView(){
     var plot1= [], plot2=[];
