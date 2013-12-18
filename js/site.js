@@ -197,9 +197,27 @@ var renderJSONContent = {
 	}
 }
 
-  function setScore(){
-      
+function setScore(oldScore, newScore){
+      animateValue($('.info_banner span.score'), oldScore, newScore, 2000);
+    //animateValue($('.info_banner span.rank'), 50, 100, 2000);
+    	
   }
+function animateValue(id, start, end, duration) {
+    var range = end - start;
+    var current = start;
+    var increment = end > start? 1 : -1;
+    var stepTime = Math.abs(Math.floor(duration / range));
+    var obj = id;
+    //console.log(obj);
+    //obj.empty().append(start);
+   var timer = setInterval(function() {
+        current += increment;
+         obj.empty().append(current);
+        if (current == end) {
+            clearInterval(timer);
+        }
+    }, stepTime);
+}
 
 function getBubbleView(d){
     //console.log("init bubble data");

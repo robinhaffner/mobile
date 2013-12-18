@@ -93,6 +93,7 @@ a.btn-default:hover { color: rgb(87,143,194); }
 }
 
 #q2 .ui-content { background-color: rgb(211, 234, 238); }
+#q2 .body .app-page { background-color: rgb(211, 234, 238); }
 
 #ftr-content {
 	width: 100%; height: 100px; 
@@ -120,6 +121,8 @@ td.jqplot-table-legend.jqplot-table-legend-swatch{
 	padding-top: 0px;
 	width: 10px;
 }
+
+/*.ui-mobile body .app-page table.jqplot-table-legend { top: -100px;}*/
 .ui-mobile body .app-page table.jqplot-table-legend tr:nth-child(1) { float: left; }
 .ui-mobile body .app-page table.jqplot-table-legend tr:nth-child(2) { float: right; }
 

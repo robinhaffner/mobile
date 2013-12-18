@@ -19,27 +19,20 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.3.1/jquery.cookie.min.js"></script>    
 	<script src="js/site.js"></script>
     <script src="js/styles.js"></script>
-	<!--jqplot-->
-<!--	<script type="text/javascript" src="js/jqplot/jquery.jqplot.min.js"></script>
+	
+    <!-- Don't touch this! -->
+    <script class="include" type="text/javascript" src="js/jqplot/jquery.jqplot.min.js"></script>
     <script type="text/javascript" src="js/jqplot/syntaxhighlighter/scripts/shCore.min.js"></script>
     <script type="text/javascript" src="js/jqplot/syntaxhighlighter/scripts/shBrushJScript.min.js"></script>
     <script type="text/javascript" src="js/jqplot/syntaxhighlighter/scripts/shBrushXml.min.js"></script>
-	<script type="text/javascript" src="js/jqplot/plugins/jqplot.bubbleRenderer.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="js/jqplot/jquery.jqplot.min.css" />-->
-    
-    <!-- Don't touch this! -->
-<script class="include" type="text/javascript" src="js/jqplot/jquery.jqplot.min.js"></script>
-<script type="text/javascript" src="js/jqplot/syntaxhighlighter/scripts/shCore.min.js"></script>
-<script type="text/javascript" src="js/jqplot/syntaxhighlighter/scripts/shBrushJScript.min.js"></script>
-<script type="text/javascript" src="js/jqplot/syntaxhighlighter/scripts/shBrushXml.min.js"></script>
-<!-- Additional plugins go here -->
-<script class="include" type="text/javascript" src="js/jqplot/jquery.jqplot.min.js"></script>
-<script class="include" type="text/javascript" src="js/jqplot/plugins/jqplot.barRenderer.min.js"></script>
-<script class="include" type="text/javascript" src="js/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
-<script class="include" type="text/javascript" src="js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
-<script class="include" type="text/javascript" src="js/jqplot/plugins/jqplot.pointLabels.min.js"></script>
-    <script type="text/javascript" src="js/jqplot/plugins/jqplot.bubbleRenderer.min.js"></script>
-<!-- End additional plugins -->
+    <!-- Additional plugins go here -->
+    <script class="include" type="text/javascript" src="js/jqplot/jquery.jqplot.min.js"></script>
+    <script class="include" type="text/javascript" src="js/jqplot/plugins/jqplot.barRenderer.min.js"></script>
+    <script class="include" type="text/javascript" src="js/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
+    <script class="include" type="text/javascript" src="js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+    <script class="include" type="text/javascript" src="js/jqplot/plugins/jqplot.pointLabels.min.js"></script>
+        <script type="text/javascript" src="js/jqplot/plugins/jqplot.bubbleRenderer.min.js"></script>
+    <!-- End additional plugins -->
 	<!--//-->
 </head> 
 
@@ -82,14 +75,18 @@
 <script class="code" language="javascript" type="text/javascript">
     
     $(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
-    $("#canvasBubble").empty();
-           var page = "#q2";
+        $("#canvasBubble").empty();
+        var page = "#q2";
 
 
         $.jqplot.config.enablePlugins = true;
          var bubblePlot = [];
          var arr = [];
-    
+        //define alternate plots for different answer counts
+        var bubblePlot5 = [[45,25,50,""],[25,60,50,""],[55,80,50,""],[90,70,50,""],[80,30,50,""],[50,50,50,""]];
+        var bubblePlot6 = [[45,25,50,""],[25,60,50,""],[55,80,50,""],[90,70,50,""],[80,30,50,""]];
+        var bubblePlot7 = [[45,25,50,""],[25,60,50,""],[55,80,50,""],[90,70,50,""],[80,30,50,""]];
+        //bubblePlot = bubblePlot+arr.length;
         arr = $.cookie('__plotItems').split(",");
         bubblePlot = [[45,25,50,arr[0]],[25,60,50,arr[1]],[55,80,50,arr[2]],[90,70,50,arr[3]],[80,30,50,arr[4]]];
     
