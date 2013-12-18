@@ -39,6 +39,9 @@ $( document ).on( "pageinit", "[data-role='page'].app-page", function() {
         for(var cookie in cookies) {
            $.removeCookie(cookie);
         }
+        $('.info_banner span.question').empty();
+		$('.info_banner span.score').empty();
+		$('.info_banner span.rank').empty();
     }
     
 	//footer
@@ -83,6 +86,7 @@ function getPageParam() {
 
 }
 $(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
+    
 	__id = $(this)
 
 	if ($(this).find('last')) {
@@ -127,6 +131,9 @@ $(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
 		 					renderJSONContent.questionJSON();
                             getBubbleView(json.question2);
 		 				}
+                        if(__localCookie == "question2"){
+                            //getBubbleView(json.question2);
+                        }
 		 				if (__d == "scores") {
 		 					//use cookie to store values
 		 					$.cookie('__score', tdata.score);
@@ -166,9 +173,7 @@ var renderJSONContent = {
 		$(__id).find('#question_content').show('fast').html(questionHTML);
 		if (__localCookie == "question1") {
 			getListView();
-            //getBubbleView(tdata);
 		};
-        
         
 	},
 	scoreJSON: function(){
