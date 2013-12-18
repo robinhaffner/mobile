@@ -39,7 +39,6 @@ $( document ).on( "pageinit", "[data-role='page'].app-page", function() {
         for(var cookie in cookies) {
            $.removeCookie(cookie);
         }
-        //console.log("remove all cookies");
     }
     
 	//footer

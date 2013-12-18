@@ -20,12 +20,26 @@
 	<script src="js/site.js"></script>
     <script src="js/styles.js"></script>
 	<!--jqplot-->
-	<script type="text/javascript" src="js/jqplot/jquery.jqplot.min.js"></script>
+<!--	<script type="text/javascript" src="js/jqplot/jquery.jqplot.min.js"></script>
     <script type="text/javascript" src="js/jqplot/syntaxhighlighter/scripts/shCore.min.js"></script>
     <script type="text/javascript" src="js/jqplot/syntaxhighlighter/scripts/shBrushJScript.min.js"></script>
     <script type="text/javascript" src="js/jqplot/syntaxhighlighter/scripts/shBrushXml.min.js"></script>
 	<script type="text/javascript" src="js/jqplot/plugins/jqplot.bubbleRenderer.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="js/jqplot/jquery.jqplot.min.css" />
+	<link rel="stylesheet" type="text/css" href="js/jqplot/jquery.jqplot.min.css" />-->
+    
+    <!-- Don't touch this! -->
+<script class="include" type="text/javascript" src="js/jqplot/jquery.jqplot.min.js"></script>
+<script type="text/javascript" src="js/jqplot/syntaxhighlighter/scripts/shCore.min.js"></script>
+<script type="text/javascript" src="js/jqplot/syntaxhighlighter/scripts/shBrushJScript.min.js"></script>
+<script type="text/javascript" src="js/jqplot/syntaxhighlighter/scripts/shBrushXml.min.js"></script>
+<!-- Additional plugins go here -->
+<script class="include" type="text/javascript" src="js/jqplot/jquery.jqplot.min.js"></script>
+<script class="include" type="text/javascript" src="js/jqplot/plugins/jqplot.barRenderer.min.js"></script>
+<script class="include" type="text/javascript" src="js/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
+<script class="include" type="text/javascript" src="js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+<script class="include" type="text/javascript" src="js/jqplot/plugins/jqplot.pointLabels.min.js"></script>
+    <script type="text/javascript" src="js/jqplot/plugins/jqplot.bubbleRenderer.min.js"></script>
+<!-- End additional plugins -->
 	<!--//-->
 </head> 
 
@@ -50,7 +64,7 @@
 				<h2>{{question_header}}</h2>
 				<p>{{question_text}}</p>
 			</div>
-			<div id="canvasBubble" class="plot" style="margin-top:-15px; margin-left:0; width:282px; height:200px;"></div>
+			<div id="canvasBubble" class="plot" style="margin-top:-5px; margin-left:0; width:282px; height:260px;"></div>
 			<!--<canvas id="canvasBubble" style="margin-top:5px; margin-left:0; width:282px; height:310px;"></canvas>-->		
 		</div><!-- /content -->
 
@@ -66,7 +80,9 @@
 	</div><!-- /page -->
 
 <script class="code" language="javascript" type="text/javascript">
+    
     $(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
+    $("#canvasBubble").empty();
            var page = "#q2";
 
 
@@ -75,13 +91,11 @@
          var arr = [];
     
         arr = $.cookie('__plotItems').split(",");
-        bubblePlot = [[1,7,1000,arr[0]],[3,1,1000,arr[1]],[6,11,1000,arr[2]],[10,8,1000,arr[3]],[9,2,1000,arr[4]]];
+        bubblePlot = [[45,25,50,arr[0]],[25,60,50,arr[1]],[55,80,50,arr[2]],[90,70,50,arr[3]],[80,30,50,arr[4]]];
     
-       // console.log(bubblePlot);
+       //console.log(bubblePlot);
         var colorArray=[];
-        colorArray = ['#ffffff', '#def5f9', '#8bcffa', '#eafcff'];
-        
-        
+        colorArray = ['#ffffff', '#def5f9', '#8bcffa', '#eafcff','#8bcffa'];
         plot2 = $.jqplot('canvasBubble',[bubblePlot],{
             animate: true,
             seriesColors:colorArray,
@@ -108,7 +122,8 @@
                     bubbleAlpha: 0.6,
                     highlightAlpha: 0.8,
                     highlightMouseDown: false, //diesable jqplotDataHighlight
-                    highlightMouseOver: false //diesable jqplotDataHighlight
+                    highlightMouseOver: false, //diesable jqplotDataHighlight
+                    autoscaleBubbles: false,
                 },
                 shadow: true,
                 shadowAlpha: 0.05
@@ -117,8 +132,11 @@
              axesDefaults: {
                 show: false,    // wether or not to renderer the axis.  Determined automatically.
                 //renderer: $.jqplot.LinearAxisRenderer,  // renderer to use to draw the axis,
-               renderer: $.jqplot.CategoryAxisRenderer,
+              // renderer: $.jqplot.CategoryAxisRenderer,
+                renderer: $.jqplot.LinearAxisRenderer,
                 showTickMarks:false,
+                tickInterval: 10,
+                ticks: [10,20,30,40,50,60,70,80,100],
                 showTicks: false, 
                 drawMajorGridlines: false,
                 drawMinorGridlines: false,
@@ -131,7 +149,39 @@
            }
         });
     });
-        
+   
+    $(document).ready(function(){     
+    var canvasArr, labelArr, clickBubble, userSelectedBubble = [];
+    var selected;
+	$('#canvasBubble').bind('jqplotDataClick',
+		function (ev, seriesIndex, pointIndex, data) {
+			canvasArr = $.makeArray( $(this).find(".jqplot-series-canvas .jqplot-bubble-point") );
+			labelArr = $.makeArray( $(this).find(".jqplot-series-canvas .jqplot-bubble-label") );
+			//search for click location and hide from canvas container
+			for( t in labelArr){
+				if($.inArray($(labelArr[t]).html().toString(), data) != -1) {
+					var options = {};
+                    selected = $(labelArr[t]).html().toString();
+					$(labelArr[t]).hide()
+					$(canvasArr[t]).effect( "puff", options, 300);
+                    
+                    //swapping the position of the selected bubble with the first result and color. We do this so that the selected color legend in the results page will reflect the items selected. jqplot uses the first item color in the array to dictate the legend color.
+                    var tmp = plotResults[0];
+                    var ctmp = colorArray[0];
+                    plotResults[0] = plotResults[t];
+                    colorArray[0] = selectedColor;
+                    plotResults[t] = tmp;
+                    colorArray[t] = ctmp;
+                    
+				}
+			}
+           
+            $.removeCookie('__plotResults');
+            $.cookie("__plotResults", plotResults); 
+             $.removeCookie('__colorArray');
+            $.cookie("__colorArray", colorArray); 
+	})//.canvasBubble().bind('refresh');
+     });
 </script>
 
 </body>

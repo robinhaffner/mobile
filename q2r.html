@@ -75,6 +75,7 @@
 	<script class="code" type="text/javascript">
        
         $(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
+            $("#chart5").empty();
            // var page = "#q2r";
            $.jqplot.config.enablePlugins = true;
            var __plotQ2R =$.cookie('__plotResults');

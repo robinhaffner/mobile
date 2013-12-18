@@ -73,16 +73,23 @@ a.btn-default:hover { color: rgb(87,143,194); }
 #question_content {
     height: auto;
 }
+
+
 #question_content > h2 {
+    font-size: 1.5rem; 
+    font-weight: 300;
     margin: 0;
-    color: rgb(122,143,146);
+    color: #7A8F92;
 }
 #question_content > h3 {
     margin: 0;
-    color: rgb(122,143,146);
+    color: #7A8F92;
 }
 #question_content > p {
+    font-size: 1rem; 
+    font-weight: normal;
     margin: 0;
+    color: #000;
 }
 
 #q2 .ui-content { background-color: rgb(211, 234, 238); }

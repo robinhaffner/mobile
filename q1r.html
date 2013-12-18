@@ -72,8 +72,9 @@
 
 	<script class="code" type="text/javascript">
         $(document).on('pageshow', "[data-role='page'].app-page", function(event, ui) {
+           
+             $("#chart3").empty();
             $.jqplot.config.enablePlugins = true;
-
             var __plot1, __plot2;
 
             //read q1 cookie
