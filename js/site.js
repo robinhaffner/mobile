@@ -208,6 +208,10 @@ function getBubbleView(d){
         plotResults[i]=[answers[i].score, answers[i].answer];
         plotItems.push(answers[i].answer.replace('<br>',' '));
         colorArray.push('#dcd2ba');
+        var ans = answers[i].answer.replace(' ', '<br>')
+        plotResults[i]=[answers[i].score,answers[i].answer];
+        plotItems.push(answers[i].answer);
+        colorArray.push(defaultColor);
     }
     
     //initialize the results array used to draw the results
